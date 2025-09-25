@@ -1,0 +1,72 @@
+# Configuration for Llama 4 Maverick (17Bx128E) MoE model
+
+model:
+  model_type: "llama_maverick"
+  num_experts: 128
+  expert_size: 17000000000  # 17B parameters per expert
+  hidden_dim: 8192
+  num_layers: 80
+  vocab_size: 128256
+  intermediate_size: 28672
+  num_attention_heads: 64
+  num_key_value_heads: 8
+  rope_theta: 500000.0
+  max_position_embeddings: 32768
+  top_k: 2
+  router_aux_loss_coef: 0.01
+  router_z_loss_coef: 0.001
+
+pruning:
+  target_experts: 16
+  budget_constraint: 0.125  # 12.5% of experts
+  meta_episodes: 500
+  ppo_epochs: 4
+  learning_rate: 0.0003
+  clip_range: 0.2
+  entropy_coef: 0.01
+  value_function_coef: 0.5
+  max_grad_norm: 0.5
+  performance_weight: 1.0
+  efficiency_weight: 0.1
+
+routing:
+  top_k: 2
+  temperature: 1.0
+  exploration_noise: 0.1
+  active_learning_samples: 1000
+  uncertainty_threshold: 0.1
+  router_lr: 0.0001
+  warmup_steps: 100
+  ppo_epochs: 4
+  clip_range: 0.2
+
+training:
+  batch_size: 8
+  gradient_accumulation_steps: 16
+  max_length: 2048
+  learning_rate: 0.00001
+  weight_decay: 0.01
+  warmup_steps: 100
+  total_steps: 5000
+  save_steps: 500
+  eval_steps: 100
+  logging_steps: 10
+  optimizer: "adamw"
+  scheduler: "cosine"
+  fp16: true
+  gradient_checkpointing: true
+  local_rank: -1
+  world_size: 1
+  output_dir: "./outputs"
+  cache_dir: "./cache"
+  log_dir: "./logs"
+
+# Task-specific settings
+task: "code_generation"
+dataset_name: "humaneval"
+metric: "pass@1"
+
+# Experiment settings
+seed: 42
+experiment_name: "llama_maverick_leap"
+wandb_project: "leap_experiments"

@@ -1,0 +1,72 @@
+# Configuration for Qwen3-235B-A22B MoE model
+
+model:
+  model_type: "qwen3_235b"
+  num_experts: 128
+  expert_size: 1800000000  # ~1.8B parameters per expert (235B total / 128 experts)
+  hidden_dim: 12288
+  num_layers: 96
+  vocab_size: 152064
+  intermediate_size: 32768
+  num_attention_heads: 96
+  num_key_value_heads: 96
+  rope_theta: 1000000.0
+  max_position_embeddings: 32768
+  top_k: 2
+  router_aux_loss_coef: 0.01
+  router_z_loss_coef: 0.001
+
+pruning:
+  target_experts: 12  # More aggressive pruning for larger model
+  budget_constraint: 0.09375  # 9.375% of experts (12/128)
+  meta_episodes: 600
+  ppo_epochs: 4
+  learning_rate: 0.0002
+  clip_range: 0.2
+  entropy_coef: 0.01
+  value_function_coef: 0.5
+  max_grad_norm: 0.5
+  performance_weight: 1.0
+  efficiency_weight: 0.15
+
+routing:
+  top_k: 2
+  temperature: 0.8  # Lower temperature for more focused routing
+  exploration_noise: 0.08
+  active_learning_samples: 1500
+  uncertainty_threshold: 0.12
+  router_lr: 0.00008
+  warmup_steps: 150
+  ppo_epochs: 4
+  clip_range: 0.2
+
+training:
+  batch_size: 4  # Smaller batch size due to larger model
+  gradient_accumulation_steps: 32
+  max_length: 2048
+  learning_rate: 0.000008
+  weight_decay: 0.01
+  warmup_steps: 150
+  total_steps: 6000
+  save_steps: 600
+  eval_steps: 120
+  logging_steps: 10
+  optimizer: "adamw"
+  scheduler: "cosine"
+  fp16: true
+  gradient_checkpointing: true
+  local_rank: -1
+  world_size: 1
+  output_dir: "./outputs"
+  cache_dir: "./cache"
+  log_dir: "./logs"
+
+# Task-specific settings
+task: "reasoning"
+dataset_name: "gsm8k"
+metric: "accuracy"
+
+# Experiment settings
+seed: 42
+experiment_name: "qwen3_235b_leap"
+wandb_project: "leap_experiments"
