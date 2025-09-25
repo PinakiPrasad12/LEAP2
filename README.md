@@ -4,6 +4,11 @@
 
 LEAP is a novel agentic framework that addresses the challenge of combining meta-Reinforcement Learning (RL), Active Learning, and dynamic routing for Mixture-of-Experts (MoE) language models. This implementation provides a principled pathway toward building smaller, specialized, and more efficient MoE-based language models.
 
+## Workflow
+
+![LEAP Workflow](leap_workflow.png)
+
+
 ## Key Features
 
 - **Pruning Agent**: Meta-RL based expert subset selection with structural optimization
@@ -189,14 +194,15 @@ training:
 ## Citation
 
 ```bibtex
-@article{leap2024,
+@article{leap2025,
   title={LEAP: Learning Expert Adaptation \& Pruning for Task-Specialized MoE Language Models},
   author={Anonymous Authors},
   journal={Under Review},
-  year={2024}
+  year={2025}
 }
 ```
 
 ## License
+
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
